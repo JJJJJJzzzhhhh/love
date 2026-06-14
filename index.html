@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>满屏爱心</title>
+    <style>
+        body { margin: 0; padding: 0; min-height: 100vh; background-color: #ffe6f2; overflow: hidden; }
+        .popup {
+            position: fixed; padding: 15px 20px; border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: "楷体", serif; 
+            font-size: 16px; text-align: center; z-index: 1000; max-width: 150px; word-wrap: break-word;
+            animation: fadeIn 0.5s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+    </style>
+</head>
+<body>
+<script>
+    const bgColors = ['pink', 'lightblue', 'lightgreen', 'lightyellow', 'cyan', 'lavender'];
+    const messages = ['❤️爱你❤️', '永远的幸福!', '岁岁平安!', '永远被爱包围!', '愿你事事顺心!'];
+    
+    function createPopup(msg) {
+        const popup = document.createElement('div');
+        popup.className = 'popup';
+        popup.textContent = msg;
+        popup.style.backgroundColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+        // 确保弹窗不超出屏幕边界
+        const x = Math.floor(Math.random() * (window.innerWidth - 160));
+        const y = Math.floor(Math.random() * (window.innerHeight - 80));
+        popup.style.left = `${x}px`;
+        popup.style.top = `${y}px`;
+        
+        document.body.appendChild(popup);
+        setTimeout(() => popup.remove(), 5000); // 5秒后自动销毁弹窗
+    }
+    
+    window.addEventListener('load', () => {
+        let count = 0;
+        const interval = setInterval(() => {
+            if (count >= 50) { clearInterval(interval); return; } // 限制总弹窗数量防止卡顿
+            createPopup(messages[Math.floor(Math.random() * messages.length)]);
+            count++;
+        }, 100); // 每100毫秒弹出一个
+    });
+</script>
+</body>
+</html>
